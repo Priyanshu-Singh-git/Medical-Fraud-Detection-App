@@ -16,7 +16,7 @@ This repository contains the implementation of Medical invoices Fraud Detection 
 #### The data are merged on basis of the Beneficiary-ID(representing each unique patients ) and the Provider_ID(representing the set of unique hospitals) . You can check dataset authentication and verification in the kaggle link.
 
 
-### 2. **Model Selection and training*
+### 2. *Model Selection and training*
 #### The Model selection was done by testing with three different Models Logistic Regression , Random forest Regression , XGBoost model .
 #### From which the XGboost gave a very great metrics for both classes for Recall,Precision and Accuracy. Hyperparameter tuning was done like each the branches (n_estimators in case of Random Forest and changing the converge algo for logistic reg to Newton-cg).
 ####  Serialized the models using Pickle module of python
