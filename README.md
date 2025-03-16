@@ -50,6 +50,14 @@ Model results are
 
 ### XGboost results
 
+|          | precision | recall | f1-score | support   | 
+|----------|----------|----------|----------|----------|
+| 0        | 0.94     | 0.97     |  0.95    | 68983    |
+| 1        | 0.95     | 0.90     | 0.92     | 42660    |
+| accuracy | ----     |          | 0.94     | 111643   |
+| macro avg| 0.94     | 0.93     | 0.94     | 111643   |
+|weight.avg| 0.94     | 0.94     | 0.94     | 111643   |
+
 ## How to Run
 
    python dqn.py
