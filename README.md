@@ -32,8 +32,7 @@
 ### 5. **Model and Application deployment to AWS EC2**
 #### The deployment process was the one taking much time , had to create instance of EC2 (having linux AMI) .
 #### Installed all dependencies(python and its required modules)
-#### Transferred files to virtual cloud system 
-#### then launched it Using tools like gunicorn, etc.
+#### Transferred files to virtual cloud system then launched it Using tools like gunicorn, etc.
 
 
 ## Results
