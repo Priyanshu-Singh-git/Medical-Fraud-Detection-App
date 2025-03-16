@@ -38,12 +38,11 @@
 
 ## Results
 
-Model 
+Model results are 
+### Random forest results
+
+### XGboost results
 
 ## How to Run
 
-1. Clone the repository.
-2. Ensure you have all the required dependencies installed.
-3. Run the script using:
-   ```bash
    python dqn.py
