@@ -1,6 +1,6 @@
 # Medical Fraud Detection Application
 ## Overview
-This repository contains the implementation of Medical invoices Fraud Detection App using ML . Application is made using Flask , Ml model used are Logistric Regression, Random Forest and XGBoost . The Application is connected with Postgres Database to store the results and the application is deployed on AWS EC2 service of which I  provided the application link in about.
+### This repository contains the implementation of Medical invoices Fraud Detection App using ML . Application is made using Flask , Ml model used are Logistric Regression, Random Forest and XGBoost . The Application is connected with Postgres Database to store the results and the application is deployed on AWS EC2 service of which I  provided the application link in about.
 ## Repository Structure
 - **App**: Contains the flask app code with the frontend html code.
 - **Multiple ipynb files** : There is 4 ipynb files for ML training,datapreprocessing ,model testing and one more for converting the csv data to pdf .
