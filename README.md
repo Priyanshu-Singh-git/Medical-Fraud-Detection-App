@@ -59,5 +59,9 @@ Model results are
 |weight.avg| 0.94     | 0.94     | 0.94     | 111643   |
 
 ## How to Run
+### Clone the repository 
+### Download the dataset from the mentioned link
+### After cloning change the model weights variable in app.py if deploying on cloud
+### Also change the Postgres connection variables like user,host, password and port etc
+### Change the parameter and retrain the models according to your wish 
 
-   python dqn.py
