@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Invoice Fraud Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7f9;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        .result-container {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .loading {
+            text-align: center;
+            display: none;
+        }
+        .error {
+            color: #e74c3c;
+            padding: 10px;
+            border: 1px solid #e74c3c;
+            border-radius: 4px;
+            background-color: #fadbd8;
+            margin-top: 10px;
+        }
+        .prediction-result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            display: none;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .fraud {
+            background-color: #fadbd8;
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+        }
+        .no-fraud {
+            background-color: #d4efdf;
+            border: 1px solid #27ae60;
+            color: #27ae60;
+        }
+        .metadata {
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: left;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Medical Invoice Fraud Detection</h1>
+        
+        <div class="form-group">
+            <label for="file">Select a PDF file:</label>
+            <input type="file" id="file" name="file" accept=".pdf">
+        </div>
+        
+        <button id="extract-btn">Extract Text</button>
+        
+        <div class="loading" id="loading-extract">
+            <p>Extracting text...</p>
+        </div>
+        
+        <div class="form-group" style="margin-top: 20px;">
+            <label for="extracted-text">Extracted Text:</label>
+            <textarea id="extracted-text" name="extracted_text"></textarea>
+        </div>
+        
+        <button id="predict-btn" style="margin-top: 10px;">Predict Fraud</button>
+        
+        <div class="loading" id="loading-predict">
+            <p>Analyzing data...</p>
+        </div>
+        
+        <div id="error-message" class="error" style="display: none;"></div>
+        
+        <div id="prediction-result" class="prediction-result">
+            <p id="prediction-text"></p>
+            <div id="metadata" class="metadata">
+                <p id="bene-id"></p>
+                <p id="provider"></p>
+                <p id="probability"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Store the current filename
+        let currentFileName = '';
+        
+        document.getElementById('extract-btn').addEventListener('click', function() {
+            const fileInput = document.getElementById('file');
+            const loadingExtract = document.getElementById('loading-extract');
+            const errorMessage = document.getElementById('error-message');
+            const extractedText = document.getElementById('extracted-text');
+            
+            // Clear previous results
+            errorMessage.style.display = 'none';
+            extractedText.value = '';
+            currentFileName = '';
+            
+            // Check if file is selected
+            if (!fileInput.files[0]) {
+                errorMessage.textContent = 'Please select a PDF file.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Create form data
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            
+            // Show loading
+            loadingExtract.style.display = 'block';
+            
+            // Send request
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                loadingExtract.style.display = 'none';
+                
+                if (data.error) {
+                    errorMessage.textContent = data.error;
+                    errorMessage.style.display = 'block';
+                } else {
+                    extractedText.value = data.extracted_text;
+                    currentFileName = data.filename;
+                }
+            })
+            .catch(error => {
+                loadingExtract.style.display = 'none';
+                errorMessage.textContent = 'An error occurred during extraction.';
+                errorMessage.style.display = 'block';
+                console.error('Error:', error);
+            });
+        });
+        
+        document.getElementById('predict-btn').addEventListener('click', function() {
+            const extractedText = document.getElementById('extracted-text');
+            const loadingPredict = document.getElementById('loading-predict');
+            const errorMessage = document.getElementById('error-message');
+            const predictionResult = document.getElementById('prediction-result');
+            const predictionText = document.getElementById('prediction-text');
+            const beneIdElement = document.getElementById('bene-id');
+            const providerElement = document.getElementById('provider');
+            const probabilityElement = document.getElementById('probability');
+            
+            // Clear previous results
+            errorMessage.style.display = 'none';
+            predictionResult.style.display = 'none';
+            predictionResult.className = 'prediction-result';
+            
+            // Check if text is available
+            if (!extractedText.value.trim()) {
+                errorMessage.textContent = 'Please extract text from a PDF first or enter text manually.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Create form data
+            const formData = new FormData();
+            formData.append('extracted_text', extractedText.value);
+            formData.append('filename', currentFileName);
+            
+            // Show loading
+            loadingPredict.style.display = 'block';
+            
+            // Send request
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                loadingPredict.style.display = 'none';
+                
+                if (data.error) {
+                    errorMessage.textContent = data.error;
+                    errorMessage.style.display = 'block';
+                } else {
+                    predictionResult.style.display = 'block';
+                    
+                    // Set class based on prediction and display simple message
+                    if (data.prediction.is_fraud) {
+                        predictionResult.classList.add('fraud');
+                        predictionText.textContent = 'FRAUD DETECTED';
+                    } else {
+                        predictionResult.classList.add('no-fraud');
+                        predictionText.textContent = 'NO FRAUD DETECTED';
+                    }
+                    
+                    // Add metadata
+                    beneIdElement.textContent = `Beneficiary ID: ${data.prediction.bene_id}`;
+                    providerElement.textContent = `Provider: ${data.prediction.provider}`;
+                    
+                    if (data.prediction.prediction_probability !== undefined) {
+                        const probability = (data.prediction.prediction_probability * 100).toFixed(2);
+                        probabilityElement.textContent = `Fraud Probability: ${probability}%`;
+                    } else {
+                        probabilityElement.textContent = '';
+                    }
+                }
+            })
+            .catch(error => {
+                loadingPredict.style.display = 'none';
+                errorMessage.textContent = 'An error occurred during prediction.';
+                errorMessage.style.display = 'block';
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
