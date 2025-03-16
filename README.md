@@ -40,6 +40,14 @@
 Model results are 
 ### Random forest results
 
+|          | precision | recall | f1-score | support   | 
+|----------|----------|----------|----------|----------|
+| 0        | 0.86     | 0.95     |  0.90    | 68983    |
+| 1        | 0.91     | 0.75     | 0.82     | 42660    |
+| accuracy | ----     |          | 0.88     | 111643   |
+| macro avg| 0.88     | 0.85     | 0.86     | 111643   |
+|weight.avg| 0.88     | 0.88     | 0.87     | 111643   |
+
 ### XGboost results
 
 ## How to Run
