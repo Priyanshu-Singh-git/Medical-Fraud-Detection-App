@@ -10,7 +10,10 @@ This repository contains the implementation of Medical invoices Fraud Detection 
 ## Explanation of the Full Development procedure
 
 ### 1. **Medical Data Preprocessing**
-The collected unprocessed data had three dataset - inpatient, outpatient and beneficiary. The inpatient and outpatient is the Claims given by the hospital side to the government claiming the Medical services details inpatient for the admitted patients and outpatients for minor injuries patient who visited just fro consultation and normal checkups. The Beneficiary contains the patients details the Bill ammount paid by him , the insurance details ,his claimed service details, and his medical record and past disease records. All these dataset are processed in the Preprocessing ipynb file . The data are merged on basis of the Beneficiary-ID(representing each unique patients ) and the Provider_ID(representing the set of unique hospitals) . You can check dataset authentication and verification in the kaggle link.
+The collected unprocessed data had three dataset - inpatient, outpatient and beneficiary. 
+-The inpatient and outpatient is the Claims given by the hospital side to the government claiming the Medical services details inpatient for the admitted patients and outpatients for minor injuries patient who visited just fro consultation and normal checkups.
+-The Beneficiary contains the patients details the Bill ammount paid by him , the insurance details ,his claimed service details, and his medical record and past disease records. All these dataset are processed in the Preprocessing ipynb file . 
+-The data are merged on basis of the Beneficiary-ID(representing each unique patients ) and the Provider_ID(representing the set of unique hospitals) . You can check dataset authentication and verification in the kaggle link.
 ### 2. **Duelling DQN**
 
 
