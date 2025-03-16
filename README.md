@@ -14,24 +14,31 @@ This repository contains the implementation of Medical invoices Fraud Detection 
 #### The inpatient and outpatient is the Claims given by the hospital side to the government claiming the Medical services details inpatient for the admitted patients and outpatients for minor injuries patient who visited just fro consultation and normal checkups.
  #### The Beneficiary contains the patients details the Bill ammount paid by him , the insurance details ,his claimed service details, and his medical record and past disease records. All these dataset are processed in the Preprocessing ipynb file . 
 #### The data are merged on basis of the Beneficiary-ID(representing each unique patients ) and the Provider_ID(representing the set of unique hospitals) . You can check dataset authentication and verification in the kaggle link.
-### 2. **Duelling DQN**
 
 
+### 2. **Model Selection and training*
+#### The Model selection was done by testing with three different Models Logistic Regression , Random forest Regression , XGBoost model .
+#### From which the XGboost gave a very great metrics for both classes for Recall,Precision and Accuracy. Hyperparameter tuning was done like each the branches (n_estimators in case of Random Forest and changing the converge algo for logistic reg to Newton-cg).
+####  Serialized the models using Pickle module of python
 
+### 3. **Model testing**
+#### Loading the model to check for whether the results are authentic or not (to also check isnt the model overfitted /underfitted)
 
+### 4. **Application Development and Database integration**
+#### Made the flask Application where you can drag and drop the invoice and the text would be extracted then formatted according to model.
+#### After clicking on Predict button the model will predict the class alongwith showing prediction probability for more insights
+#### On backend it would be connected to PostGresSQL which will after doing prediction will store the results having following columns - (Beneficiary id , Provider id, Extracted details, Predictions)
 
-
-### 3. **Duelling DDQN**
-
-
-
-
-
+### 5. **Model and Application deployment to AWS EC2**
+#### The deployment process was the one taking much time , had to create instance of EC2 (having linux AMI) .
+#### Installed all dependencies(python and its required modules)
+#### Transferred files to virtual cloud system 
+#### then launched it Using tools like gunicorn, etc.
 
 
 ## Results
 
-The figures show that both the Duelling DQN and Duelling DDQN architectures generally perform better than the standard DQN in terms of stability and score. The Duelling DDQN in particular demonstrates robust performance with the highest and most stable scores over the episodes.
+Model 
 
 ## How to Run
 
