@@ -16,7 +16,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 DB_CONFIG = {
     'dbname': 'postgres',  # Connect to default postgres database first
     'user': 'postgres',
-    'password': 'priyanshu@789',
+    'password': 'yourpassword',
     'host': 'localhost',
     'port': '5432'
 }
